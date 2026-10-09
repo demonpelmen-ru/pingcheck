@@ -27,6 +27,20 @@ body {
   font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
 }
 
+.legal-link {
+  margin: 14px 0 0;
+  font-size: 13px;
+}
+
+.legal-link a {
+  color: var(--muted);
+  text-underline-offset: 3px;
+}
+
+.legal-link a:hover {
+  color: var(--green);
+}
+
 .page {
   width: min(100%, 980px);
   margin: 0 auto;
@@ -276,20 +290,6 @@ h1 {
   .feature-card {
     padding: 21px;
   }
-}
-
-.legal-link {
-  margin: 14px 0 0;
-  font-size: 13px;
-}
-
-.legal-link a {
-  color: var(--muted);
-  text-underline-offset: 3px;
-}
-
-.legal-link a:hover {
-  color: var(--green);
 }
 
 @media (prefers-reduced-motion: reduce) {
