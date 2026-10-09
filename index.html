@@ -3,365 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#101722">
-  <meta name="description" content="PingCheck для Android: диагностика интернет-соединения, монитор пинга и инструменты для анализа Wi-Fi.">
-  <title>PingCheck — диагностика сети и Wi-Fi для Android</title>
-
-  <style>
-    :root {
-      color-scheme: dark;
-      --bg: #101722;
-      --surface: #172230;
-      --surface-light: #1c2a3a;
-      --border: #29394c;
-      --text: #f3f7fc;
-      --muted: #a4b2c3;
-      --blue: #58a6ff;
-      --blue-dark: #2878cf;
-      --green: #61d6a5;
-    }
-
-    * {
-      box-sizing: border-box;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      min-width: 320px;
-      min-height: 100vh;
-      margin: 0;
-      padding: 32px 18px;
-      display: grid;
-      place-items: center;
-      background:
-        radial-gradient(ellipse at 50% 0%, rgba(47, 117, 190, .18), transparent 48%),
-        var(--bg);
-      color: var(--text);
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-    }
-
-    .page {
-      width: min(100%, 760px);
-    }
-
-    .hero {
-      padding: clamp(28px, 7vw, 56px);
-      overflow: hidden;
-      position: relative;
-      border: 1px solid var(--border);
-      border-radius: 28px;
-      background: linear-gradient(145deg, rgba(29, 45, 63, .97), rgba(20, 31, 44, .98));
-      box-shadow: 0 24px 80px rgba(0, 0, 0, .28);
-    }
-
-    .hero::after {
-      content: "";
-      position: absolute;
-      width: 260px;
-      height: 260px;
-      top: -150px;
-      right: -90px;
-      border-radius: 50%;
-      background: rgba(75, 157, 242, .13);
-      filter: blur(8px);
-      pointer-events: none;
-    }
-
-    .brand {
-      display: inline-flex;
-      align-items: center;
-      gap: 12px;
-      margin-bottom: 34px;
-      color: var(--text);
-      font-size: 15px;
-      font-weight: 700;
-      letter-spacing: .02em;
-    }
-
-    .brand-icon {
-      width: 42px;
-      height: 42px;
-      display: grid;
-      place-items: center;
-      border: 1px solid rgba(119, 184, 255, .35);
-      border-radius: 14px;
-      background: rgba(65, 145, 226, .15);
-      color: var(--blue);
-    }
-
-    .brand-icon svg {
-      width: 23px;
-      height: 23px;
-    }
-
-    .eyebrow {
-      margin: 0 0 12px;
-      color: var(--green);
-      font-size: 12px;
-      font-weight: 750;
-      letter-spacing: .13em;
-      text-transform: uppercase;
-    }
-
-    h1 {
-      max-width: 620px;
-      margin: 0;
-      font-size: clamp(38px, 8vw, 64px);
-      line-height: 1.04;
-      letter-spacing: -.045em;
-    }
-
-    .intro {
-      max-width: 590px;
-      margin: 20px 0 0;
-      color: var(--muted);
-      font-size: clamp(16px, 2.5vw, 19px);
-      line-height: 1.65;
-    }
-
-    .actions {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 12px;
-      margin-top: 30px;
-    }
-
-    .button {
-      min-height: 52px;
-      padding: 0 20px;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      border: 1px solid transparent;
-      border-radius: 14px;
-      color: #fff;
-      font-size: 15px;
-      font-weight: 700;
-      text-align: center;
-      text-decoration: none;
-      transition: transform .18s ease, background .18s ease, border-color .18s ease;
-    }
-
-    .button:hover {
-      transform: translateY(-2px);
-    }
-
-    .button:focus-visible {
-      outline: 3px solid #b8dcff;
-      outline-offset: 3px;
-    }
-
-    .button-primary {
-      background: linear-gradient(135deg, var(--blue-dark), #398fe8);
-      box-shadow: 0 8px 24px rgba(40, 120, 207, .25);
-    }
-
-    .button-primary:hover {
-      background: linear-gradient(135deg, #3288df, #58a6ff);
-    }
-
-    .button-secondary {
-      border-color: #3a4c61;
-      background: rgba(255, 255, 255, .035);
-    }
-
-    .button-secondary:hover {
-      border-color: #6683a2;
-      background: rgba(255, 255, 255, .07);
-    }
-
-    .button svg {
-      width: 18px;
-      height: 18px;
-      flex: 0 0 auto;
-    }
-
-    .note {
-      margin: 14px 0 0;
-      color: #8495a9;
-      font-size: 13px;
-      line-height: 1.5;
-    }
-
-    .features {
-      margin-top: 24px;
-      display: grid;
-      grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-    }
-
-    .feature {
-      min-height: 142px;
-      padding: 20px;
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      background: rgba(23, 34, 48, .88);
-    }
-
-    .feature-mark {
-      width: 34px;
-      height: 34px;
-      margin-bottom: 13px;
-      display: grid;
-      place-items: center;
-      border-radius: 11px;
-      background: rgba(88, 166, 255, .12);
-      color: var(--blue);
-      font-size: 17px;
-      font-weight: 800;
-    }
-
-    .feature h2 {
-      margin: 0;
-      font-size: 15px;
-      line-height: 1.35;
-    }
-
-    .feature p {
-      margin: 7px 0 0;
-      color: var(--muted);
-      font-size: 13px;
-      line-height: 1.55;
-    }
-
-    footer {
-      padding: 20px 8px 0;
-      color: #8495a9;
-      font-size: 13px;
-      text-align: center;
-    }
-
-    @media (max-width: 520px) {
-      body {
-        padding: 18px 12px;
-      }
-
-      .hero {
-        border-radius: 22px;
-      }
-
-      .brand {
-        margin-bottom: 28px;
-      }
-
-      .actions {
-        flex-direction: column;
-      }
-
-      .button {
-        width: 100%;
-      }
-
-      .features {
-        grid-template-columns: 1fr;
-      }
-
-      .feature {
-        min-height: auto;
-      }
-    }
-
-    @media (prefers-reduced-motion: reduce) {
-      html {
-        scroll-behavior: auto;
-      }
-
-      *,
-      *::before,
-      *::after {
-        transition-duration: .01ms !important;
-      }
-    }
-  </style>
+  <meta name="theme-color" content="#07130f">
+  <meta name="description" content="PingCheck для Android: мастер-диагностика интернета и инструменты для анализа Wi-Fi.">
+  <title>PingCheck — диагностика интернета и Wi-Fi</title>
+  <link rel="icon" type="image/png" href="./pinglogo_v2.png">
+  <link rel="stylesheet" href="./styles.css">
 </head>
 
 <body>
   <main class="page">
     <section class="hero" aria-labelledby="page-title">
-      <div class="brand">
-        <span class="brand-icon" aria-hidden="true">
-          <svg viewBox="0 0 24 24" fill="none">
-            <path d="M3 9a13 13 0 0 1 18 0M6.5 12.5a8 8 0 0 1 11 0M10 16a3 3 0 0 1 4 0"
-              stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-            <circle cx="12" cy="19" r="1.3" fill="currentColor"/>
-          </svg>
-        </span>
-        PingCheck
-      </div>
+      <header class="brand">
+        <img
+          class="brand-icon"
+          src="./pinglogo_v2.png"
+          alt="Иконка PingCheck"
+          width="72"
+          height="72">
+        <span class="brand-name">PingCheck</span>
+        <span class="platform">Для Android</span>
+      </header>
 
-      <p class="eyebrow">Сетевые инструменты для Android</p>
-      <h1 id="page-title">Разберитесь,<br>что происходит с сетью</h1>
-      <p class="intro">
-        Проверяйте соединение, следите за пингом и анализируйте Wi‑Fi —
-        прямо на телефоне.
-      </p>
+      <div class="intro">
+        <p class="eyebrow">Диагностика сети</p>
+        <h1 id="page-title">Поймите, что происходит с вашим Wi‑Fi</h1>
+        <p class="intro-text">
+          Проверяйте соединение и исследуйте параметры беспроводной сети
+          с помощью инструментов PingCheck.
+        </p>
 
-      <div class="actions">
-        <a
-          class="button button-primary"
-          href="https://www.rustore.ru/catalog/app/com.example.ping_router_and_dns"
-          target="_blank"
-          rel="noopener noreferrer"
-          aria-label="Открыть PingCheck в RuStore">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M7 3.5h7l4 4V20H7a2 2 0 0 1-2-2V5.5a2 2 0 0 1 2-2Z"
-              stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-            <path d="M14 3.8V8h4M8.5 12h7M8.5 15.5h7"
-              stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-          </svg>
-          Скачать в RuStore
-        </a>
+        <nav class="actions" aria-label="Скачать приложение">
+          <a
+            class="button button-primary"
+            href="https://www.rustore.ru/catalog/app/com.example.ping_router_and_dns"
+            target="_blank"
+            rel="noopener noreferrer">
+            Скачать в RuStore
+          </a>
 
-        <a
-          class="button button-secondary"
-          href="./pingcheck-1.3.0.apk"
-          download
-          aria-label="Скачать APK-файл PingCheck версии 1.3.0">
-          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M12 3v12m0 0 4-4m-4 4-4-4M5 17v3h14v-3"
-              stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Скачать APK напрямую
-        </a>
-      </div>
-
-      <p class="note">
-        APK скачивается с этого сайта. Перед установкой Android может попросить
-        разрешить установку приложений из браузера.
-      </p>
-
-      <div class="features" aria-label="Возможности PingCheck">
-        <article class="feature">
-          <div class="feature-mark" aria-hidden="true">↗</div>
-          <h2>Мастер диагностики</h2>
-          <p>Помогает проверить роутер, DNS и доступность внешних адресов.</p>
-        </article>
-
-        <article class="feature">
-          <div class="feature-mark" aria-hidden="true">⌁</div>
-          <h2>Монитор пинга</h2>
-          <p>Проверяйте отклик роутера, DNS-сервера и других адресов.</p>
-        </article>
-
-        <article class="feature">
-          <div class="feature-mark" aria-hidden="true">◉</div>
-          <h2>Анализ Wi‑Fi</h2>
-          <p>Смотрите соседние сети и загруженность каналов в диапазонах Wi‑Fi.</p>
-        </article>
-
-        <article class="feature">
-          <div class="feature-mark" aria-hidden="true">⌖</div>
-          <h2>Сигнал и скорость</h2>
-          <p>Оценивайте силу сигнала, покрытие по помещениям и параметры подключения.</p>
-        </article>
+          <a
+            class="button button-secondary"
+            href="./pingcheck-1.3.0.apk"
+            download>
+            Скачать APK напрямую
+          </a>
+        </nav>
       </div>
     </section>
 
-    <footer>PingCheck · Android</footer>
+    <section class="features" aria-label="Возможности приложения">
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">📡</div>
+        <h2>Мастер-диагностика</h2>
+        <p>
+          Проведите автоматическую проверку, если интернет полностью пропал,
+          работает медленно или нестабильно либо не открывается сайт.
+          Сетевые знания не нужны.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">📈</div>
+        <h2>Радиоэфир Wi‑Fi</h2>
+        <p>
+          Посмотрите, какие каналы заняты соседскими сетями, и выберите
+          менее загруженный канал для своего роутера.
+        </p>
+      </article>
+
+      <article class="feature-card">
+        <div class="feature-icon" aria-hidden="true">🏠</div>
+        <h2>Сила сигнала Wi‑Fi</h2>
+        <p>
+          Измеряйте уровень сигнала в текущем месте и проверяйте покрытие
+          по комнатам. Сравнивайте результаты в разных точках квартиры
+          или дома.
+        </p>
+      </article>
+
+      <article class="feature-card feature-card-speed">
+        <div class="feature-icon" aria-hidden="true">⚡</div>
+        <h2>Оценка скорости Wi‑Fi</h2>
+        <p>
+          Получите ориентировочный прогноз скорости беспроводного соединения
+          с учётом диапазона, стандарта Wi‑Fi, уровня сигнала и скорости связи
+          с роутером.
+        </p>
+        <p class="feature-note">
+          Это не замер скорости интернета и не замена онлайн-тесту пропускной
+          способности. Прогноз помогает понять, какую скорость примерно
+          ожидать на участке между роутером и телефоном.
+        </p>
+      </article>
+    </section>
+
+    <footer class="footer">
+      <span class="footer-brand">PingCheck</span>
+      <span>Инструменты для диагностики Wi‑Fi на Android</span>
+    </footer>
   </main>
 </body>
 </html>
