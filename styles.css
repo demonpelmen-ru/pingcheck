@@ -278,6 +278,20 @@ h1 {
   }
 }
 
+.legal-link {
+  margin: 14px 0 0;
+  font-size: 13px;
+}
+
+.legal-link a {
+  color: var(--muted);
+  text-underline-offset: 3px;
+}
+
+.legal-link a:hover {
+  color: var(--green);
+}
+
 @media (prefers-reduced-motion: reduce) {
   *,
   *::before,
